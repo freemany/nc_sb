@@ -16,7 +16,7 @@ vendor/*
 *.phar
 
 data/
-public/css
-public/img
-public/fonts
-public/js
+public/css/
+public/img/
+public/fonts/
+public/js/
