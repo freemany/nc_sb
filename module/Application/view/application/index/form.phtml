@@ -1,0 +1,35 @@
+<?php
+/*
+if ($messages) {
+    echo  $this->flashMessenger()->render();
+}
+echo $this->flashMessenger()->renderCurrent(\Zend\Mvc\Controller\Plugin\FlashMessenger::NAMESPACE_ERROR);
+echo $this->flashMessenger()->renderCurrent(\Zend\Mvc\Controller\Plugin\FlashMessenger::NAMESPACE_SUCCESS);
+*/
+
+$form = $this->uploadForm;
+$form->setAttribute('action', $this->url('application/default', array('controller'=>'index',
+                                 'action' => 'form')));
+$form->prepare();
+echo $this->form()->openTag($form);
+?>
+<div class="form-group">
+    <label class="sr-only" for="">Fridge</label>
+    <?php echo $this->formRow(
+        $form->get('csv')
+            ->setAttribute('class', 'form-control')
+    ); ?>
+</div>
+<div class="form-group">
+    <button class="btn btn-block btn-lg submit_button" type="submit">Submit</button>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+</form>
+<?php if ($csv===false):?>
+<div class="alert alert-warning" role="alert">No Fridge.csv</div>
+<?php else: ?>
+<div class="panel panel-default">
+    <div class="panel-heading">Fridge.csv</div>
+    <div class="panel-body"><pre><?php echo $csv;?></pre></div>
+</div>
+<?php endif;?>
