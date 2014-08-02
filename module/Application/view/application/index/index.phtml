@@ -107,6 +107,15 @@
         initCollapsible: function() {
             $(document).delegate('.panel-heading', 'click', function() {
                 var $content = $(this).next();
+                var $icon = $(this).find('span.glyphicon');
+
+                if ($icon.hasClass('glyphicon-plus')) {
+                    $icon.addClass('glyphicon-minus');
+                    $icon.removeClass('glyphicon-plus');
+                } else {
+                    $icon.removeClass('glyphicon-minus');
+                    $icon.addClass('glyphicon-plus');
+                }
                 $content.toggleClass('collapse');
                 return false;
             });

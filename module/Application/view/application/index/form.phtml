@@ -18,7 +18,7 @@ echo $this->form()->openTag($form);
 <div class="alert alert-warning" role="alert">No Fridge.csv</div>
 <?php else: ?>
 <div class="panel panel-default js-uploaded-file">
-    <div class="panel-heading">Fridge.csv</div>
+    <div class="panel-heading">Fridge.csv <span class="glyphicon glyphicon-plus pull-right"></span></div>
     <div class="panel-body collapse"><pre><?php echo htmlentities($csv);?></pre></div>
 </div>
 
@@ -37,7 +37,7 @@ echo $this->form()->openTag($form);
     <div class="alert alert-warning" role="alert">No Recipes.json</div>
 <?php else: ?>
     <div class="panel panel-default js-uploaded-file">
-        <div class="panel-heading">Recipes.json</div>
+        <div class="panel-heading">Recipes.json <span class="glyphicon glyphicon-plus pull-right"></span></div>
         <div class="panel-body collapse"><pre><?php echo htmlentities($json);?></pre></div>
     </div>
 <?php endif;?>
