@@ -14,12 +14,11 @@ use Zend\InputFilter\InputProviderInterface;
 use Zend\Filter\File\RenameUpload;
 use Application\Validator\File\Extension;
 
-
-class Csv extends File implements InputProviderInterface
+class Json extends File implements InputProviderInterface
 {
-    const NAME = 'csv';
+    const NAME = 'json';
 
-    protected $label = 'Fridge (*.csv)';
+    protected $label = 'Recipes (*.json)';
 
     public function __construct($name = self::NAME, $options = array())
     {
@@ -34,14 +33,14 @@ class Csv extends File implements InputProviderInterface
             'filters' => array(
                 new RenameUpload(
                     array(
-                        'target'    => './data/fridge.csv',
+                        'target'    => './data/recipes.json',
                         'overwrite' => true,
                     )
                 )
             ),
             'validators' => array(
                 new Extension(array(
-                        'extension' => 'csv'
+                        'extension' => 'json'
                     )
                 )
             )

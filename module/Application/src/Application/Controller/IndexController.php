@@ -16,8 +16,7 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-
-        return new ViewModel();
+        return array();
     }
 
     public function formAction()
@@ -58,9 +57,18 @@ class IndexController extends AbstractActionController
             $csv = false;
         }
 
-        return array(
+        if (file_exists('./data/recipes.json')) {
+            $json = file_get_contents('./data/recipes.json');
+        } else {
+            $json = false;
+        }
+
+        $viewModel = new ViewModel(array(
             'uploadForm' => $uploadForm,
             'csv' => $csv,
-        );
+            'json' => $json,
+        ));
+        $viewModel->setTerminal(true);
+        return $viewModel;
     }
 }
