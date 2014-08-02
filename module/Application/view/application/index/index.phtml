@@ -40,6 +40,8 @@
 </div><!--end of modal-->
 <script>
 
+    var baseUrl = '<?php $baseUrl;?>';
+
     var AjaxForm = function() {
 
         this.url = arguments[0];
@@ -81,7 +83,7 @@
                     return false;
                 }
 
-                $.getJSON('/newscorp/public/api/index/cook-analyzer?'+Math.random(), function(data) {
+                $.getJSON(baseUrl +'api/index/cook-analyzer?'+Math.random(), function(data) {
 
                     $('#answerModal').find('.modal-body').text(data.result);
                     $('#answerModal').modal();
@@ -95,7 +97,7 @@
             $('#delete-btn').click(function(e) {
                 e.preventDefault();
 
-                $.get('/newscorp/public/api/index/delete-files', function() {
+                $.get(baseUrl + 'api/index/delete-files', function() {
                     $('#deleteModal').modal();
                     that.loadForm();
                 })
@@ -111,5 +113,5 @@
         }
     };
 
-var ajaxForm = new AjaxForm('/newscorp/public/api/index/form');
+var ajaxForm = new AjaxForm(baseUrl + 'api/index/form');
 </script>

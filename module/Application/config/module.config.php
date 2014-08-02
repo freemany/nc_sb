@@ -114,4 +114,8 @@ return array(
             ),
         ),
     ),
+
+    'domain' => array(
+        'url' => '/newscorp/public/',
+    )
 );

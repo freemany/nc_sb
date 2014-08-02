@@ -18,7 +18,11 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return array();
+        $config = $this->getServiceLocator()->get('Config');
+
+        return array(
+            'baseUrl' => $config['domain']['url']
+        );
     }
 
     public function formAction()
