@@ -1,14 +1,36 @@
+<button id="delete-btn" type="button" class="btn btn-sm pull-right">
+    <span class="glyphicon glyphicon-remove"></span> Delete Csv & Json files</button>
+
+
 <div id="form"></div>
 <button id="run-btn" type="button" class="btn btn-primary btn-xlarge center-block">Tell me what is cooking tonight</button>
+
+
 
 <div class="modal fade" id="answerModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">What is cooking tonight?</h2>
+                <h3 class="modal-title">What is cooking tonight?</h3>
             </div>
             <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div><!--end of modal-->
+
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Message</h3>
+            </div>
+            <div class="modal-body">Those files have been deleted.</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
@@ -34,8 +56,13 @@
     AjaxForm.prototype = {
 
         init: function() {
-            $(this.wrapper).load(this.url + '?'+Math.random(), $.proxy(this.action, this));
+            this.loadForm();
             this.initRunBtn();
+            this.initDeleteBtn();
+            this.initCollapsible();
+        },
+        loadForm: function() {
+            $(this.wrapper).load(this.url + '?'+Math.random(), $.proxy(this.action, this));
         },
         action: function () {
             $(this.form).ajaxForm(this.options);
@@ -46,7 +73,7 @@
             }
         },
 
-        initRunBtn: function() {t
+        initRunBtn: function() {
             $('#run-btn').click(function(e) {
                 e.preventDefault();
 
@@ -54,12 +81,32 @@
                     return false;
                 }
 
-                $.get('/newscorp/answer.php', function(data) {
+                $.getJSON('/newscorp/public/api/index/cook-analyzer?'+Math.random(), function(data) {
 
-                    $('#answerModal').find('.modal-body').text(data);
+                    $('#answerModal').find('.modal-body').text(data.result);
                     $('#answerModal').modal();
                 });
 
+            });
+        },
+
+        initDeleteBtn: function() {
+            var that = this;
+            $('#delete-btn').click(function(e) {
+                e.preventDefault();
+
+                $.get('/newscorp/public/api/index/delete-files', function() {
+                    $('#deleteModal').modal();
+                    that.loadForm();
+                })
+            });
+        },
+
+        initCollapsible: function() {
+            $(document).delegate('.panel-heading', 'click', function() {
+                var $content = $(this).next();
+                $content.toggleClass('collapse');
+                return false;
             });
         }
     };

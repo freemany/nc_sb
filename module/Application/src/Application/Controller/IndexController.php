@@ -9,8 +9,10 @@
 
 namespace Application\Controller;
 
+use Zend\Config\Reader\JavaProperties;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -38,16 +40,22 @@ class IndexController extends AbstractActionController
 
             $uploadForm->setData($data);
 
+
             if ($uploadForm->isValid()) {
-
-
+               if (isset($_FILES['csv']))
+                  move_uploaded_file($_FILES['csv']['tmp_name'], './data/fridge.csv');
+                if (isset($_FILES['json']))
+                move_uploaded_file($_FILES['json']['tmp_name'], './data/recipes.json');
 
                 $this->flashMessenger()->addSuccessMessage(
                     'Upload. thanks.'
                 );
 
                 $success = true;
-                //$this->redirect()->refresh();
+
+            } else {
+                $data['csv'] = null;
+                $data['json'] = null;
             }
         }
 
@@ -70,5 +78,24 @@ class IndexController extends AbstractActionController
         ));
         $viewModel->setTerminal(true);
         return $viewModel;
+    }
+
+    public function deleteFilesAction()
+    {
+        @unlink('./data/fridge.csv');
+        @unlink('./data/recipes.json');
+
+        return new JsonModel(array(
+            'result'=> 'success'
+        ));
+    }
+
+    public function cookAnalyzerAction()
+    {
+        $cookAnalyzer = $this->getServiceLocator()->get('CookAnalyzer');
+
+        return new JsonModel(array(
+            'result' => $cookAnalyzer->run()
+        ));
     }
 }

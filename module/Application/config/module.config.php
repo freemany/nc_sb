@@ -57,6 +57,13 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+        'invokables'=> array(
+            'FridgeService' => 'Application\Service\FridgeService',
+            'RecipesService' => 'Application\Service\RecipesService',
+        ),
+        'factories' => array(
+            'CookAnalyzer' => 'Application\Cook\Factory\AnalyzerFactory'
+        ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),

@@ -42,7 +42,7 @@ class Extension extends ZExtension
 
         // Is file readable ?
         if (empty($file) || false === stream_resolve_include_path($file)) {
-            //$this->error(self::NOT_FOUND);
+            $this->error(self::NOT_FOUND);
            return false;
         }
 
