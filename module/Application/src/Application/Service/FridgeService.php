@@ -21,7 +21,11 @@ class FridgeService
     public function __construct($source = null)
     {
         $this->source = $source ? $source : __DIR__ . '/../../../../../data/fridge.csv';
+        $this->mapSource();
+    }
 
+    protected function mapSource()
+    {
         $this->fridge = new Fridge();
 
         $file = fopen($this->source,"r");
@@ -35,10 +39,11 @@ class FridgeService
             $item->setAmount($row[1]);
             $item->setUnit($row[2]);
             $item->setUseBy($row[3]);
-
             $this->fridge->setItem($item);
         }
         fclose($file);
+
+        return $this;
     }
 
     public function getFridge()

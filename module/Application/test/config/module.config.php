@@ -66,6 +66,11 @@ return array(
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
+        ),
+        'shared' => array(   //for test only
+            'FridgeService' => false,
+            'RecipesService' => false,
+            'CookAnalyzer' => false,
         )
     ),
     'translator' => array(

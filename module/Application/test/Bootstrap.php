@@ -25,6 +25,7 @@ class Bootstrap
             $testConfig = include __DIR__ . '/TestConfig.php.dist';
         }
 
+
         $zf2ModulePaths = array();
 
         if (isset($testConfig['module_listener_options']['module_paths'])) {

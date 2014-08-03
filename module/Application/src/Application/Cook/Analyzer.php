@@ -30,9 +30,19 @@ class Analyzer
         $this->fridge = clone $fridge;
     }
 
+    public function getFridge()
+    {
+        return $this->fridge;
+    }
+
     public function setRecipes($recipes)
     {
         $this->recipes = clone $recipes;
+    }
+
+    public function getRecipes()
+    {
+        return $this->recipes;
     }
 
     public function addFilter(FilterInterface $filter)

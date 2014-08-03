@@ -33,11 +33,11 @@ class CheckAvailability implements FilterInterface
 
     public function run()
     {
-        $this->removeExpiredItems();
+        //$this->removeExpiredItems();
         $this->checkIngredientAvailable();
     }
 
-    protected function removeExpiredItems()
+    /*protected function removeExpiredItems()
     {
         $items = $this->fridge->getItems();
         foreach($items as $index=>$item) {
@@ -47,7 +47,7 @@ class CheckAvailability implements FilterInterface
         }
         $this->fridge->setItems($items);
 
-    }
+    }*/
 
     protected function checkAvailable($ingredient) {
         foreach($this->fridge->getItems() as $item) {
