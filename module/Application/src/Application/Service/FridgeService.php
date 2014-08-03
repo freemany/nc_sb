@@ -15,12 +15,13 @@ use Application\Entity\Hydrator\DateHydrator;
 
 class FridgeService
 {
-    protected $source = './data/fridge.csv';
-
     protected $fridge;
+    protected $source;
 
-    public function __construct()
+    public function __construct($source = null)
     {
+        $this->source = $source ? $source : __DIR__ . '/../../../../../data/fridge.csv';
+
         $this->fridge = new Fridge();
 
         $file = fopen($this->source,"r");

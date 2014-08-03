@@ -14,12 +14,13 @@ use Application\Entity\Recipe;
 
 class RecipesService
 {
-    protected $source = './data/recipes.json';
-
     protected $recipes;
+    protected $source;
 
-    public function __construct()
+    public function __construct($source = null)
     {
+        $this->source = $source ? $source : __DIR__ . '/../../../../../data/recipes.json';
+
         $recipesArr = json_decode(file_get_contents($this->source));
 
         $this->recipes = new Recipes();
