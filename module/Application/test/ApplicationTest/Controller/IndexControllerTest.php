@@ -9,6 +9,7 @@ use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
+use Zend\Test\Util\ModuleLoader;
 
 use Application\Cook\Analyzer;
 use Application\Cook\Filter\CheckAvailability;
@@ -25,10 +26,28 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
     protected $routeMatch;
     protected $event;
     protected $serviceManager;
+    protected $config;
 
     protected function setUp()
     {
-        $this->serviceManager = Bootstrap::getServiceManager();
+        @copy(__DIR__.'/../../../../../data/fridge.csv',
+            __DIR__.'/../../../../../data/fridge_o.csv');
+
+        @copy(__DIR__.'/../../../../../data/recipes.json',
+            __DIR__.'/../../../../../data/recipes_o.json');
+
+
+        @copy(__DIR__ . '/../../data/fridge.csv',
+                __DIR__.'/../../../../../data/fridge.csv');
+
+        @copy(__DIR__ . '/../../data/recipes.json',
+                __DIR__.'/../../../../../data/recipes.json');
+
+
+        $this->config = Bootstrap::getConfig();
+        $loader = new ModuleLoader($this->config);
+        $this->serviceManager = $loader->getServiceManager();
+
         $this->controller = new IndexController();
         $this->request    = new Request();
         $this->routeMatch = new RouteMatch(array('controller' => 'index'));
@@ -69,6 +88,16 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
         $this->assertControllerName('application\controller\index');
         $this->assertControllerClass('IndexController');
         $this->assertMatchedRouteName('home');
+    }
+
+    protected function tearDown()
+    {
+        @rename(__DIR__.'/../../../../../data/fridge_o.csv',
+            __DIR__.'/../../../../../data/fridge.csv');
+        @rename(__DIR__.'/../../../../../data/recipes_o.json',
+            __DIR__.'/../../../../../data/recipes.json');
+
+        parent::tearDown();
     }
 
  }

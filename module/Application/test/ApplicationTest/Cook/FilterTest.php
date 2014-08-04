@@ -25,32 +25,52 @@ class FilterTest extends AbstractHttpControllerTestCase
 
     protected $config;
 
+    protected $testSource = array(
+        array('csv'=> '/../../data/fridge_with_expired_bread.csv',
+              'json' => '/../../data/recipes.json'),
+        array('csv' => '/../../data/fridge.csv',
+              'json'=>'/../../data/recipes_with_item_unavailable.json'),
+        array('csv' => '/../../data/fridge_with_cheese_closest_useby.csv',
+            'json' => '/../../data/recipes.json'),
+    );
+
+    protected static $i = 0;
+
     protected function setUp()
     {
-        $this->serviceManager = Bootstrap::getServiceManager();
-        $this->config = Bootstrap::getConfig();
-
-        $this->setApplicationConfig( include __DIR__ . '/../../../../../config/application.config.php' );
-
         copy(__DIR__.'/../../../../../data/fridge.csv',
             __DIR__.'/../../../../../data/fridge_o.csv');
+
         copy(__DIR__.'/../../../../../data/recipes.json',
             __DIR__.'/../../../../../data/recipes_o.json');
 
-		parent::setUp();
+        if ($this->testSource[self::$i]['csv']) {
+            copy(__DIR__ . $this->testSource[self::$i]['csv'],
+                __DIR__.'/../../../../../data/fridge.csv');
+        }
+
+        if ($this->testSource[self::$i]['json']) {
+            copy(__DIR__ . $this->testSource[self::$i]['json'],
+                __DIR__.'/../../../../../data/recipes.json');
+        }
+
+        self::$i ++;
+
+
+        $this->config = Bootstrap::getConfig();
+        $loader = new ModuleLoader($this->config);
+        $this->serviceManager = $loader->getServiceManager();
+
+        $this->setApplicationConfig( include __DIR__ . '/../../../../../config/application.config.php' );
+
+        parent::setUp();
     }
 
 
     public function testRemoveExpiredItemFromFridge()
     {
-        copy(__DIR__.'/../../data/fridge_with_expired_bread.csv',
-            __DIR__.'/../../../../../data/fridge.csv');
 
-        /** Generate new services for testing only as all existing services are singletons. **/
-        $loader = new ModuleLoader($this->config);
-        $serviceLocator = $loader->getServiceManager();
-
-        $fridge = $serviceLocator->get('FridgeService')->getFridge();
+        $fridge = $this->serviceManager->get('FridgeService')->getFridge();
 
         $originalNum = count($fridge->getItems());
 
@@ -65,15 +85,9 @@ class FilterTest extends AbstractHttpControllerTestCase
 
     public function testCheckAvailability()
     {
-        copy(__DIR__.'/../../data/recipes_with_item_unavailable.json',
-            __DIR__.'/../../../../../data/recipes.json');
 
-
-        $loader = new ModuleLoader($this->config);
-        $serviceLocator = $loader->getServiceManager();
-
-        $fridge = $serviceLocator->get('FridgeService')->getFridge();
-        $recipes = $serviceLocator->get('RecipesService')->getRecipes();
+        $fridge = $this->serviceManager->get('FridgeService')->getFridge();
+        $recipes = $this->serviceManager->get('RecipesService')->getRecipes();
 
         $originalNum = count($recipes->getRecipes());
 
@@ -83,6 +97,22 @@ class FilterTest extends AbstractHttpControllerTestCase
         $filter->run();
 
         $this->assertEquals(count($recipes->getRecipes()), $originalNum - 1);
+    }
+
+    public function testClosestUseBy()
+    {
+
+        $fridge = $this->serviceManager->get('FridgeService')->getFridge();
+        $recipes = $this->serviceManager->get('RecipesService')->getRecipes();
+
+        $filter = new CheckClosestUseBy();
+        $filter->setFridge($fridge);
+        $filter->setRecipes($recipes);
+        $filter->run();
+
+        $recipesCollection = $recipes->getRecipes();
+
+        $this->assertEquals('grilled cheese on toast', $recipesCollection[0]->getName());
     }
 
     protected function tearDown()

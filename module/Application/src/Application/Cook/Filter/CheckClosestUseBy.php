@@ -52,21 +52,26 @@ class CheckClosestUseBy implements FilterInterface
             $this->itemUseBy[$item->getName()] = $item->getUseBy();
         }
 
-
     }
 
     protected function getClosestUseBy()
     {
         foreach($this->recipes->getRecipes() as $recipe) {
-            $useByCount = 0;
-            foreach($recipe->getIngredients() as $ingredient) {
-                if (in_array($ingredient->unit, array('of', 'slices'))) {
-                    $useByCount = $useByCount + $this->today->diff($this->itemUseBy[$ingredient->item])->format('%d') * $ingredient->amount;
-                } else  {
-                    $useByCount = $useByCount + $this->today->diff($this->itemUseBy[$ingredient->item])->format('%d');
-                }
+
+            foreach($recipe->getIngredients() as $index=>$ingredient) {
+
+              $useByDiff = $this->itemUseBy[$ingredient->item]->diff($this->today)->days;
+
+              if ($index == 0) {
+                  $closestUseBy = $useByDiff;
+              } else {
+                  if ($closestUseBy > $useByDiff) {
+                      $closestUseBy = $useByDiff;
+                  }
+              }
+
             }
-            $this->diffDays[] = $useByCount;
+            $this->diffDays[] = $closestUseBy;
         }
 
     }

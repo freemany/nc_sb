@@ -2,6 +2,8 @@
 
 namespace ApplicationTest\Entity;
 
+use Application\Entity\Hydrator\DateHydrator;
+use Application\Entity\Item;
 use ApplicationTest\Bootstrap;
 use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
 use Application\Controller\IndexController;
@@ -9,6 +11,7 @@ use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
+use Zend\Stdlib\DateTime;
 use Zend\Test\Util\ModuleLoader;
 
 use Application\Cook\Analyzer;
@@ -21,31 +24,35 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 class EntityTest extends AbstractHttpControllerTestCase
 {
 
-    protected $serviceManager;
-
-    protected function setUp()
+    public function testDateHydrator()
     {
-        $this->serviceManager = Bootstrap::getServiceManager();
+        $dateStr = '23/01/2000';
 
-        $this->setApplicationConfig( include __DIR__ . '/../../../../../config/application.config.php' );
+        $hydrator = new DateHydrator();
 
-        copy(__DIR__.'/../../../../../data/fridge.csv',
-            __DIR__.'/../../../../../data/fridge_o.csv');
+        $dateObject = $hydrator($dateStr);
 
-		parent::setUp();
+        $this->assertEquals($dateStr, $dateObject->format('d/m/Y'));
+
     }
-
 
     public function testItemEntity()
     {
+      $name = 'bread';
+      $amount = 100;
+      $unit = 'slices';
+      $useBy = '25/12/2004';
 
+      $item = new Item(array('date' => new DateHydrator()));
+      $item->setName($name);
+      $item->setAmount($amount);
+      $item->setUnit($unit);
+      $item->setUseBy($useBy);
+
+      $this->assertEquals($name, $item->getName());
+      $this->assertEquals($amount, $item->getAmount());
+      $this->assertEquals($unit, $item->getUnit());
+      $this->assertEquals(new \DateTime('2004-12-25'), $item->getUseBy());
     }
 
-
-    protected function tearDown()
-    {
-        rename(__DIR__.'/../../../../../data/fridge_o.csv',
-            __DIR__.'/../../../../../data/fridge.csv');
-        parent::tearDown();
-    }
  }
