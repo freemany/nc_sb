@@ -1,21 +1,15 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Application\Controller;
 
-use Zend\Config\Reader\JavaProperties;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
+    /**
+     * @return array
+     */
     public function indexAction()
     {
         $config = $this->getServiceLocator()->get('Config');
@@ -25,11 +19,11 @@ class IndexController extends AbstractActionController
         );
     }
 
+    /**
+     * @return ViewModel
+     */
     public function formAction()
     {
-
-
-        $success = false;
 
         $uploadForm = $this->getServiceLocator()->get('FormElementManager')->get('UploadForm');
 
@@ -44,18 +38,12 @@ class IndexController extends AbstractActionController
 
             $uploadForm->setData($data);
 
-
             if ($uploadForm->isValid()) {
+
                if (isset($_FILES['csv']))
                   move_uploaded_file($_FILES['csv']['tmp_name'], './data/fridge.csv');
                 if (isset($_FILES['json']))
                 move_uploaded_file($_FILES['json']['tmp_name'], './data/recipes.json');
-
-                $this->flashMessenger()->addSuccessMessage(
-                    'Upload. thanks.'
-                );
-
-                $success = true;
 
             } else {
                 $data['csv'] = null;
@@ -84,6 +72,9 @@ class IndexController extends AbstractActionController
         return $viewModel;
     }
 
+    /**
+     * @return JsonModel
+     */
     public function deleteFilesAction()
     {
         @unlink('./data/fridge.csv');
@@ -94,6 +85,9 @@ class IndexController extends AbstractActionController
         ));
     }
 
+    /**
+     * @return JsonModel
+     */
     public function cookAnalyzerAction()
     {
         $cookAnalyzer = $this->getServiceLocator()->get('CookAnalyzer');

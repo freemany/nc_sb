@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:12 AM
- */
-
 namespace Application\Cook\Filter;
 
 

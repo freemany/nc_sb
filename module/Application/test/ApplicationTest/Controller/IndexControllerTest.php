@@ -11,11 +11,6 @@ use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Router\RouteMatch;
 use Zend\Test\Util\ModuleLoader;
 
-use Application\Cook\Analyzer;
-use Application\Cook\Filter\CheckAvailability;
-use Application\Cook\Filter\CheckClosestUseBy;
-use Application\Cook\Filter\RemoveExpiredItemFromFridge;
-
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 class IndexControllerTest extends AbstractHttpControllerTestCase
@@ -88,6 +83,25 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
         $this->assertControllerName('application\controller\index');
         $this->assertControllerClass('IndexController');
         $this->assertMatchedRouteName('home');
+    }
+
+    public function testFormActionCanBeAccessWithoutError()
+    {
+        $this->dispatch('/api/index/form');
+        $this->assertResponseStatusCode(200);
+        $this->assertQuery('#frmUpload');
+        $this->assertNotXpathQuery('//div//ul//li');  //node of error message
+    }
+
+    public function testUploadErrorMessage()
+    {
+        $_FILES['csv']['name'] = 'dummy.txt';
+        $_FILES['csv']['tmp_name'] = 'path/to';
+
+        $this->dispatch('/api/index/form', 'POST');
+        $this->assertResponseStatusCode(200);
+        $this->assertQuery('#frmUpload');
+        $this->assertXpathQuery('//div//ul//li');
     }
 
     protected function tearDown()

@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:20 AM
- */
-
 namespace Application\Service;
-
 
 use Application\Entity\Fridge;
 use Application\Entity\Item;

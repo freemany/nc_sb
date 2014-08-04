@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/2/14
- * Time: 12:29 PM
+ * override Zend\Validator\File\Extension
  */
 
 namespace Application\Validator\File;

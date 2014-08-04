@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:13 AM
- */
-
 namespace Application\Cook\Filter;
 
 use DateTime;
@@ -13,8 +6,6 @@ use DateTime;
 class CheckClosestUseBy implements FilterInterface
 {
     use FilterAwareTrait;
-    //protected $fridge;
-    //protected $recipes;
 
     protected $itemUseBy =array();
     protected $diffDays = array();
@@ -25,14 +16,6 @@ class CheckClosestUseBy implements FilterInterface
     {
         $this->today = new DateTime();
     }
-
-    //public function setFridge($fridge) {
-    //$this->fridge = $fridge;
-    //}
-
-    // public function setRecipes($recipes) {
-    //$this->recipes = $recipes;
-    // }
 
     public function run()
     {

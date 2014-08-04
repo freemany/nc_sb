@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:44 AM
- */
-
 namespace Application\Cook\Factory;
-
 
 use Application\Cook\Analyzer;
 use Application\Cook\Filter\CheckAvailability;
@@ -18,6 +10,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AnalyzerFactory implements FactoryInterface
 {
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return Analyzer|mixed
+     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $fridge = $serviceLocator->get('FridgeService')->getFridge();

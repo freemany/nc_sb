@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:17 AM
- */
-
 namespace Application\Cook\Filter;
 
 use DateTime;
@@ -13,8 +6,6 @@ use DateTime;
 class CheckAvailability implements FilterInterface
 {
     use FilterAwareTrait;
-    //protected $fridge;
-    //protected $recipes;
 
     protected $today;
 
@@ -23,32 +14,15 @@ class CheckAvailability implements FilterInterface
         $this->today = new DateTime();
     }
 
-    //public function setFridge($fridge) {
-    //$this->fridge = $fridge;
-    //}
-
-    //public function setRecipes($recipes) {
-    //$this->recipes = $recipes;
-    //}
-
     public function run()
     {
-        //$this->removeExpiredItems();
         $this->checkIngredientAvailable();
     }
 
-    /*protected function removeExpiredItems()
-    {
-        $items = $this->fridge->getItems();
-        foreach($items as $index=>$item) {
-            if ($item->getUseBy()<$this->today) {
-                unset($items[$index]);
-            }
-        }
-        $this->fridge->setItems($items);
-
-    }*/
-
+    /**
+     * @param $ingredient
+     * @return bool
+     */
     protected function checkAvailable($ingredient) {
         foreach($this->fridge->getItems() as $item) {
 

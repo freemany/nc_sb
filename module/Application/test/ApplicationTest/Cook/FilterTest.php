@@ -3,15 +3,9 @@
 namespace ApplicationTest\Cook;
 
 use ApplicationTest\Bootstrap;
-use Zend\Mvc\Router\Http\TreeRouteStack as HttpRouter;
-use Application\Controller\IndexController;
-use Zend\Http\Request;
 use Zend\Http\Response;
-use Zend\Mvc\MvcEvent;
-use Zend\Mvc\Router\RouteMatch;
 use Zend\Test\Util\ModuleLoader;
 
-use Application\Cook\Analyzer;
 use Application\Cook\Filter\CheckAvailability;
 use Application\Cook\Filter\CheckClosestUseBy;
 use Application\Cook\Filter\RemoveExpiredItemFromFridge;

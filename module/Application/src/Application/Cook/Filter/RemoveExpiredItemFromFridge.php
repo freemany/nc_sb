@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: freeman
- * Date: 8/3/14
- * Time: 12:15 AM
- */
 
 namespace Application\Cook\Filter;
 
@@ -12,8 +6,7 @@ use DateTime;
 
 class RemoveExpiredItemFromFridge implements FilterInterface
 {
-    //protected $fridge;
-    //protected $recipes;
+
     use FilterAwareTrait;
 
     protected $today;
@@ -22,14 +15,6 @@ class RemoveExpiredItemFromFridge implements FilterInterface
     {
         $this->today = new DateTime();
     }
-
-    /*public function setFridge($fridge) {
-       $this->fridge = $fridge;
-    }
-
-    public function setRecipes($recipes) {
-       $this->recipes = $recipes;
-    }*/
 
     public function run()
     {
@@ -45,6 +30,5 @@ class RemoveExpiredItemFromFridge implements FilterInterface
             }
         }
         $this->fridge->setItems($items);
-
     }
 }
