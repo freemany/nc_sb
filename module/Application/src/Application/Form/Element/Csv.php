@@ -3,7 +3,7 @@ namespace Application\Form\Element;
 
 use Zend\Form\Element\File;
 use Zend\InputFilter\InputProviderInterface;
-use Application\Validator\File\Extension;
+use Zend\Validator\File\Extension;
 
 
 

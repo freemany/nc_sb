@@ -18,15 +18,20 @@ class RecipesService
 
     protected function mapSource()
     {
-        $recipesArr = json_decode(file_get_contents($this->source));
-
         $this->recipes = new Recipes();
 
-        foreach($recipesArr as $item) {
-            $recipe = new Recipe();
-            $recipe->setName($item->name);
-            $recipe->setIngredients($item->ingredients);
-            $this->recipes->addRecipe($recipe);
+        if (file_exists($this->source)) {
+
+            $recipesArr = json_decode(file_get_contents($this->source));
+
+            foreach($recipesArr as $item) {
+                $recipe = new Recipe();
+                $recipe->setName(trim($item->name));
+                $recipe->setIngredients($item->ingredients);
+                $this->recipes->addRecipe($recipe);
+        }
+            } else {
+                $this->recipes->setRecipes(array());
         }
 
     }

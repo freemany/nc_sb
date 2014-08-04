@@ -20,22 +20,28 @@ class FridgeService
     {
         $this->fridge = new Fridge();
 
-        $file = fopen($this->source,"r");
+        if (file_exists($this->source)) {
 
-        while(! feof($file))
-        {
+           $file = fopen($this->source,"r");
+
+           while(! feof($file))
+           {
             $row = fgetcsv($file);
 
-            if($row[0]) {
+             if($row[0]) {
                $item=  new Item(array('date'=>new DateHydrator()));
-               $item->setName($row[0]);
+               $item->setName(trim($row[0]));
                $item->setAmount($row[1]);
                $item->setUnit($row[2]);
                $item->setUseBy($row[3]);
                $this->fridge->setItem($item);
+             }
             }
+            fclose($file);
+
+        } else {
+            $this->fridge->setItems(array());
         }
-        fclose($file);
 
         return $this;
     }
