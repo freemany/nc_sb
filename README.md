@@ -34,7 +34,7 @@ Object oriented patterns:
 
 9. Single responsibility principle
 
-Tests:
+Tests: (location: /moudule/Application/test)
 -----------
 1. Entities/Hydrator
 2. Filters
