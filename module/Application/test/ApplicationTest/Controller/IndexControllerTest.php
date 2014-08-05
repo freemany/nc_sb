@@ -106,10 +106,19 @@ class IndexControllerTest extends AbstractHttpControllerTestCase
 
     protected function tearDown()
     {
-        @rename(__DIR__.'/../../../../../data/fridge_o.csv',
-            __DIR__.'/../../../../../data/fridge.csv');
-        @rename(__DIR__.'/../../../../../data/recipes_o.json',
-            __DIR__.'/../../../../../data/recipes.json');
+        if (file_exists(__DIR__.'/../../../../../data/fridge_o.csv')) {
+            @rename(__DIR__.'/../../../../../data/fridge_o.csv',
+                __DIR__.'/../../../../../data/fridge.csv');
+        } else {
+            @unlink(__DIR__.'/../../../../../data/fridge.csv');
+        }
+
+        if (file_exists(__DIR__.'/../../../../../data/recipes_o.json')) {
+            @rename(__DIR__.'/../../../../../data/recipes_o.json',
+                __DIR__.'/../../../../../data/recipes.json');
+        } else {
+            @unlink(__DIR__.'/../../../../../data/recipes.json');
+        }
 
         parent::tearDown();
     }

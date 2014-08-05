@@ -15,7 +15,6 @@ vendor/*
 *.lock
 *.phar
 
-data/
 public/css/
 public/img/
 public/fonts/

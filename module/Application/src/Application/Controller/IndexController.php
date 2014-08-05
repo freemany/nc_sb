@@ -40,10 +40,15 @@ class IndexController extends AbstractActionController
 
             if ($uploadForm->isValid()) {
 
-               if (isset($_FILES['csv']))
+               /** A get around as a bug/unexpected feature is found in the built in file upload filter
+                * in this latest version
+               **/
+                if (isset($_FILES['csv'])) {
                   move_uploaded_file($_FILES['csv']['tmp_name'], './data/fridge.csv');
-                if (isset($_FILES['json']))
-                move_uploaded_file($_FILES['json']['tmp_name'], './data/recipes.json');
+                }
+                if (isset($_FILES['json'])) {
+                  move_uploaded_file($_FILES['json']['tmp_name'], './data/recipes.json');
+                }
 
             } else {
                 $data['csv'] = null;

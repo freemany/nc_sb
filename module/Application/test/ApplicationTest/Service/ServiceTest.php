@@ -15,28 +15,28 @@ class ServiceTest extends AbstractHttpControllerTestCase
     protected $config;
 
     protected $testSource = array(
-        array('csv'=> '', 'json' => ''),
-        array('csv' => '/../../data/fridge_with_expired_bread.csv', 'json'=>''),
-        array('csv' => '', 'json'=>'/../../data/recipes_with_item_amount_insufficient.json'),
+        array('csv'=> '/../../data/fridge.csv', 'json' => '/../../data/recipes.json'),
+        array('csv' => '/../../data/fridge_with_expired_bread.csv', 'json'=>'/../../data/recipes.json'),
+        array('csv' => '/../../data/fridge.csv', 'json'=>'/../../data/recipes_with_item_amount_insufficient.json'),
     );
 
     protected static $i = 0;
 
     protected function setUp()
     {
-        copy(__DIR__.'/../../../../../data/fridge.csv',
+        @copy(__DIR__.'/../../../../../data/fridge.csv',
             __DIR__.'/../../../../../data/fridge_o.csv');
 
-        copy(__DIR__.'/../../../../../data/recipes.json',
+        @copy(__DIR__.'/../../../../../data/recipes.json',
             __DIR__.'/../../../../../data/recipes_o.json');
 
         if ($this->testSource[self::$i]['csv']) {
-            copy(__DIR__ . $this->testSource[self::$i]['csv'],
+            @copy(__DIR__ . $this->testSource[self::$i]['csv'],
                 __DIR__.'/../../../../../data/fridge.csv');
         }
 
         if ($this->testSource[self::$i]['json']) {
-            copy(__DIR__ . $this->testSource[self::$i]['json'],
+            @copy(__DIR__ . $this->testSource[self::$i]['json'],
                 __DIR__.'/../../../../../data/recipes.json');
         }
 
@@ -75,10 +75,20 @@ class ServiceTest extends AbstractHttpControllerTestCase
 
     protected function tearDown()
     {
-        rename(__DIR__.'/../../../../../data/fridge_o.csv',
-            __DIR__.'/../../../../../data/fridge.csv');
-        rename(__DIR__.'/../../../../../data/recipes_o.json',
-            __DIR__.'/../../../../../data/recipes.json');
+        if (file_exists(__DIR__.'/../../../../../data/fridge_o.csv')) {
+            @rename(__DIR__.'/../../../../../data/fridge_o.csv',
+                __DIR__.'/../../../../../data/fridge.csv');
+        } else {
+            @unlink(__DIR__.'/../../../../../data/fridge.csv');
+        }
+
+        if (file_exists(__DIR__.'/../../../../../data/recipes_o.json')) {
+            @rename(__DIR__.'/../../../../../data/recipes_o.json',
+                __DIR__.'/../../../../../data/recipes.json');
+        } else {
+            @unlink(__DIR__.'/../../../../../data/recipes.json');
+        }
+
         parent::tearDown();
     }
 
