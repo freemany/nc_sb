@@ -16,14 +16,23 @@ iii. Collapsible toggle box
 Backend:
 ------------
 Object oriented patterns:
-1. Entity/hydration
+1. Entity with hydration
+
 2. Service
-3. Strategy
-4. Dependency injection
-5. Interface
-6. Inheritance
-7. Single responsibility principle
-8  Trait(PHP >=5.4 only)
+
+3. Factory
+
+4. Strategy
+
+5. Dependency injection
+
+6. Interface
+
+7. Inheritance
+
+8. Trait(PHP >=5.4 only)
+
+9. Single responsibility principle
 
 Tests:
 -----------
