@@ -40,6 +40,6 @@ Usage:
 1. Upload either or both csv and json(specific file extensions required for upload) as you like.
    Click long buttons if available to review the content of uploaded files.
 2. Click the top right button to delete both uploaded files.
-3. If both files are uploaded, the 'Tell me what is cooking tonight' will be enabled and clickable to
+3. If both files are uploaded, the 'Tell me what is cooking tonight' button will be enabled and clickable to
    get the result of cooking suggestion on a pop up modal.
 
