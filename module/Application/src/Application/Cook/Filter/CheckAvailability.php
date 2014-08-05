@@ -7,6 +7,7 @@ class CheckAvailability implements FilterInterface
 {
     protected $fridge;
     protected $recipes;
+    protected $today;
 
     public function setFridge($fridge) {
         $this->fridge = $fridge;
@@ -23,8 +24,6 @@ class CheckAvailability implements FilterInterface
     public function getRecipes() {
         return $this->recipes;
     }
-
-    protected $today;
 
     public function __construct()
     {

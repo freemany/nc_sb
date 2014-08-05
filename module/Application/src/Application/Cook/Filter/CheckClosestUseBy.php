@@ -8,6 +8,11 @@ class CheckClosestUseBy implements FilterInterface
     protected $fridge;
     protected $recipes;
 
+    protected $itemUseBy =array();
+    protected $diffDays = array();
+
+    protected $today;
+
     public function setFridge($fridge) {
         $this->fridge = $fridge;
     }
@@ -24,10 +29,6 @@ class CheckClosestUseBy implements FilterInterface
         return $this->recipes;
     }
 
-    protected $itemUseBy =array();
-    protected $diffDays = array();
-
-    protected $today;
 
     public function __construct()
     {
